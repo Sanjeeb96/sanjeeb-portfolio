@@ -1,15 +1,37 @@
-import React from "react";
-import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import { navLinks } from "@/constants";
-import { logo1, menu, close } from "@/assets";
+import { navLinks } from "../constants";
+import { logo1, menu, close } from "../assets";
+import { styles } from "../styles";
 
 const Navbar = () => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      if (scrollTop > 100) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   return (
-    <nav className="sm:px-16 px-6 w-full flex items-center py-5 fixed top-0 z-20 bg-primary">
+    <nav
+      className={`${
+        styles.paddingX
+      } w-full flex items-center py-5 fixed top-0 z-20 ${
+        scrolled ? "bg-primary" : "bg-transparent"
+      }`}
+    >
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
         <Link
           href="/"
@@ -19,13 +41,7 @@ const Navbar = () => {
             window.scrollTo(0, 0);
           }}
         >
-          <Image
-            src={logo1}
-            alt="logo"
-            height={30}
-            width={30}
-            className="object-contain"
-          />
+          <img src={logo1} alt="logo" className="object-contain w-9 h-9" />
           <p className="text-white text-[18px] font-bold cursor-pointer">
             Sanjeeb
           </p>
@@ -39,18 +55,16 @@ const Navbar = () => {
               } hover:text-white text-[18px] font-medium `}
               key={link.id}
             >
-              <Link href={`#${link.id}`}>{link.title}</Link>
+              <a href={`#${link.id}`}>{link.title}</a>
             </li>
           ))}
         </ul>
 
         <div className="sm:hidden flex flex-1 justify-end items-center">
-          <Image
+          <img
             src={toggle ? close : menu}
-            className="object-contain cursor-pointer"
+            className="object-contain cursor-pointer h-7 w-7"
             alt="menu"
-            height={28}
-            width={28}
             onClick={() => {
               setToggle(!toggle);
             }}
