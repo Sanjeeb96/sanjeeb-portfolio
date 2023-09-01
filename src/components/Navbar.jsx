@@ -42,7 +42,7 @@ const Navbar = () => {
           }}
         >
           <img src={logo1} alt="logo" className="object-contain w-9 h-9" />
-          <p className="text-white text-[18px] font-bold cursor-pointer">
+          <p className="text-[#915eff] text-[18px] font-bold cursor-pointer hover:text-white">
             Sanjeeb
           </p>
         </Link>
